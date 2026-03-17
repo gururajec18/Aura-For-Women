@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - AI Health & Wellness</title>
+    <meta name="description" content="AI based menstruation cycle, pregnancy and PCOS tracking application.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Onboarding Screen -->
+    <div id="onboarding" class="onboarding-container">
+        <div class="onboarding-card glass">
+            <div class="logo justify-center mb-1">
+                <i class="ri-sparkling-fill"></i>
+                <span class="text-white">Aura- Developed by Gururaj Surampalli</span>
+            </div>
+            <h2 class="text-center">Welcome securely</h2>
+            <p class="text-center mb-4">AI based menustration cycle, pregnency and pcos tracking - your health journey.
+            </p>
+
+            <form id="onboarding-form">
+                <div class="form-group">
+                    <label for="user-name">What is your name?</label>
+                    <input type="text" id="user-name" required placeholder="e.g. Sarah">
+                </div>
+
+                <div class="form-group">
+                    <label for="user-goal">Primary Focus</label>
+                    <select id="user-goal" required>
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="cycle">Cycle Tracking</option>
+                        <option value="pregnancy">Pregnancy Journey</option>
+                        <option value="pcos">PCOS Management</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cycle-length">Average Cycle Length (Days)</label>
+                    <input type="number" id="cycle-length" required placeholder="e.g. 28" min="20" max="45">
+                </div>
+
+                <button type="submit" class="btn-primary w-100 mt-4 justify-center">Start My Journey <i
+                        class="ri-arrow-right-line"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="app-container" id="main-app" style="display: none;">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="ri-sparkling-fill"></i>
+                <span>Aura - Developed by Gururaj Surampalli</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-target="dashboard"><i class="ri-dashboard-line"></i> <span>Dashboard</span></li>
+                <li data-target="cycle"><i class="ri-drop-line"></i> <span>Cycle Tracker</span></li>
+                <li data-target="pregnancy"><i class="ri-parent-line"></i> <span>Pregnancy</span></li>
+                <li data-target="pcos"><i class="ri-pulse-line"></i> <span>PCOS Monitor</span></li>
+                <li data-target="ai-insights"><i class="ri-robot-2-line"></i> <span>AI Assistant</span></li>
+                <li data-target="settings"><i class="ri-settings-4-line"></i> <span>Settings</span></li>
+                <li id="logout-btn" style="margin-top: 2rem; color: var(--danger);"><i class="ri-logout-box-r-line"></i> <span>Logout / Reset</span></li>
+            </ul>
+            <div class="user-profile">
+                <img id="profile-img" src="https://ui-avatars.com/api/?name=User&background=ffd1dc&color=b56576"
+                    alt="User Profile">
+                <div>
+                    <h4 id="profile-name">User</h4>
+                    <p>Free Plan</p>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <h1 id="page-title">Good Morning, <span id="greeting-name">User</span></h1>
+                    <p class="subtitle" id="page-subtitle">Here is your daily wellness AI summary.</p>
+                </div>
+                <div class="topbar-actions">
+                    <button class="btn-icon" id="topbar-logout-btn" title="Logout/Reset"><i class="ri-logout-box-r-line text-danger" style="color: var(--danger);"></i></button>
+                    <button class="btn-icon"><i class="ri-notification-3-line"></i></button>
+                    <button class="btn-primary" id="log-symptom-btn"><i class="ri-add-line"></i> Log Symptom</button>
+                </div>
+            </header>
+
+            <div class="content-sections">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="section active">
+                    <div class="grid-layout">
+                        <!-- Cycle Status Card -->
+                        <div class="card glass gradient-border spotlight">
+                            <div class="card-header">
+                                <h3 id="status-card-title">Current Cycle</h3>
+                                <i class="ri-drop-fill icon-accent"></i>
+                            </div>
+                            <div class="cycle-circle-container">
+                                <div class="cycle-circle">
+                                    <svg viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="45" class="bg-ring"></circle>
+                                        <circle cx="50" cy="50" r="45" class="progress-ring" stroke-dasharray="282.7"
+                                            stroke-dashoffset="180"></circle>
+                                    </svg>
+                                    <div class="circle-content">
+                                        <h2 id="status-main-value">Day 14</h2>
+                                        <p id="status-sub-value">Ovulation Phase</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <p id="status-footer-text">Next Period in <strong>14 days</strong></p>
+                            </div>
+                        </div>
+
+                        <!-- AI Insight Card -->
+                        <div class="card ai-card glass">
+                            <div class="card-header">
+                                <h3><i class="ri-robot-2-fill"></i> AI Daily Insight</h3>
+                            </div>
+                            <div class="ai-content">
+                                <p id="ai-insight-text">You are in your <strong>Ovulation phase</strong>. Estrogen is
+                                    peaking, so you might experience higher energy levels and improved mood.</p>
+                                <div class="recommendations">
+                                    <span class="badge"><i class="ri-run-line"></i> HIIT Workout</span>
+                                    <span class="badge"><i class="ri-restaurant-line"></i> Leafy Greens</span>
+                                </div>
+                            </div>
+                            <button class="btn-secondary w-100 mt-3">Ask Aura AI</button>
+                        </div>
+
+                        <!-- Quick Log / PCOS / Pregnancy Mini Cards -->
+                        <div class="mini-cards-grid">
+                            <div class="card mini-card glass">
+                                <i class="ri-heart-pulse-fill icon-purple"></i>
+                                <div>
+                                    <h4>PCOS Risk Factor</h4>
+                                    <p>Low - All metrics normal</p>
+                                </div>
+                            </div>
+                            <div class="card mini-card glass">
+                                <i class="ri-parent-fill icon-blue"></i>
+                                <div>
+                                    <h4>Fertility Window</h4>
+                                    <p>High chance of conception today</p>
+                                </div>
+                            </div>
+                            <div class="card mini-card glass">
+                                <i class="ri-water-flash-fill icon-cyan"></i>
+                                <div>
+                                    <h4>Hydration</h4>
+                                    <p>1.2L / 2.5L logged</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Symptoms Chart Area -->
+                    <div class="card glass mt-4">
+                        <div class="card-header">
+                            <h3>Symptom & Mood Trends</h3>
+                            <select class="dropdown-lite">
+                                <option>Last 30 Days</option>
+                                <option>Last 3 Months</option>
+                            </select>
+                        </div>
+                        <div class="chart-placeholder">
+                            <div class="bar-chart">
+                                <!-- Mock bars driven by CSS for now -->
+                                <div class="bar" style="height: 40%;" data-tooltip="Cramps"></div>
+                                <div class="bar" style="height: 60%;" data-tooltip="Bloating"></div>
+                                <div class="bar" style="height: 30%;" data-tooltip="Headache"></div>
+                                <div class="bar" style="height: 80%;" data-tooltip="Fatigue"></div>
+                                <div class="bar" style="height: 50%;" data-tooltip="Acne"></div>
+                                <div class="bar" style="height: 20%;" data-tooltip="Mood Swings"></div>
+                                <div class="bar" style="height: 90%;" data-tooltip="Energy"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Other Placeholders -->
+                <section id="cycle" class="section">
+                    <div class="card glass">
+                        <h2>Cycle Tracker</h2>
+                        <p>Detailed calendar and symptom logging will go here.</p>
+                    </div>
+                </section>
+
+                <section id="pregnancy" class="section">
+                    <div class="card glass">
+                        <h2>Pregnancy Journey</h2>
+                        <div class="pregnancy-timeline">
+                            <div class="timeline-step active">Trimester 1</div>
+                            <div class="timeline-step">Trimester 2</div>
+                            <div class="timeline-step">Trimester 3</div>
+                        </div>
+                        <p class="mt-4">Track baby's growth, mother's health, and important milestones.</p>
+                    </div>
+                </section>
+
+                <section id="pcos" class="section">
+                    <div class="card glass">
+                        <h2>PCOS Monitor</h2>
+                        <p>Track specific symptoms like irregular cycles, weight changes, and androgen levels. AI will
+                            analyze patterns over time.</p>
+                    </div>
+                </section>
+
+                <section id="ai-insights" class="section">
+                    <div class="card glass chat-layout">
+                        <h2>Aura AI Assistant</h2>
+                        <div class="chat-wrapper" id="chat-wrapper">
+                            <div class="chat-bubble ai">Hello Sarah! I've analyzed your recent logs. I noticed a pattern
+                                of fatigue during days 20-24 of your cycle. Would you like some dietary recommendations
+                                to help manage this?</div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="chat-input" placeholder="Ask about your health patterns...">
+                            <button id="send-chat" class="btn-primary"><i class="ri-send-plane-fill"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="settings" class="section">
+                    <div class="card glass">
+                        <h2>Settings</h2>
+                        <p>Configure personal goals, notification preferences, and privacy controls.</p>
+
+                        <div class="mt-4 form-group" style="max-width: 300px;">
+                            <label for="update-cycle-val">Update Menstrual Cycle Length (Days)</label>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <input type="number" id="update-cycle-val" class="mb-1" placeholder="e.g. 28"
+                                    style="flex: 1;">
+                                <button id="update-cycle-btn" class="btn-secondary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Symptom Log Modal -->
+    <div class="modal-overlay" id="symptom-modal">
+        <div class="modal glass">
+            <button class="close-modal"><i class="ri-close-line"></i></button>
+            <h2>Log Today's Reality</h2>
+            <div class="modal-body">
+                <h3>Mood</h3>
+                <div class="chip-group">
+                    <span class="chip">Happy</span>
+                    <span class="chip">Sad</span>
+                    <span class="chip">Irritable</span>
+                    <span class="chip">Anxious</span>
+                    <span class="chip">Energetic</span>
+                </div>
+                <h3>Symptoms</h3>
+                <div class="chip-group">
+                    <span class="chip">Cramps</span>
+                    <span class="chip">Bloating</span>
+                    <span class="chip">Headache</span>
+                    <span class="chip">Acne</span>
+                    <span class="chip">Fatigue</span>
+                </div>
+                <h3>Flow</h3>
+                <div class="chip-group">
+                    <span class="chip">Light</span>
+                    <span class="chip">Medium</span>
+                    <span class="chip">Heavy</span>
+                    <span class="chip">Spotting</span>
+                </div>
+                <button class="btn-primary w-100 mt-4" id="save-log-btn">Save Log & Analyze</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
